@@ -8,7 +8,12 @@ const User = sequelize.define('user',{
         primaryKey:true
     },
     Name:Sequelize.STRING,
-    Gmail:Sequelize.STRING,
+    
+    Gmail: {
+        type:Sequelize.STRING,
+        allowNull: false,
+        unique: true, // Make Gmail column unique
+      },
     password:{
         type: Sequelize.STRING,
   allowNull: false

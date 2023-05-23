@@ -13,7 +13,7 @@
   
   <div class="container">
     <div class="wrapper">
-      <div class="title"><span>Login Form</span></div>
+      <div class="title"><span> Sign Up Form</span></div>
       <form action="#">
         <div class="row">
           <i class="fas fa-user"></i>
@@ -58,7 +58,6 @@
               document.getElementById('Name').placeholder =  'Cannot be empty';
 
             }
-            else{
             
      const obj ={
       Name1,
@@ -73,7 +72,12 @@
 .then(response => {
   
   const obj = response.data;
+  if(response.status ===201){
+    window.location.href="file:///C:/Bokkingapp/BookingApp/forntend.html";
+  }
+
   //showOutput(obj) ;
+  console.log(response.status);
   
 
   
@@ -81,12 +85,16 @@
   // Handle successful response
 })
 .catch(error => {
+  alert(' Check Email is already registered  ')
+
+  
+  
   // Handle error
   console.log(error);
   console.log("hellow");
 });
   }
-}
+
 
     
     

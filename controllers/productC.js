@@ -17,37 +17,15 @@ const postUser = async function (req, res, next) {
    res.status(201).json({ data });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occurred while creating a user' });
-  }
-};
-const getProduct= async  function (req, res ,next)  {
-  try{
-    const rows = await  User.findAll(); 
-    res.json(rows);
-    
-  }
- catch(err) {
-    console.log(err)
-    
-  };
-
   
-};
-const deleteProduct =  async function (req, res, next)  {
-  try{
-  const id1 = req.params.Id.replace(':', ''); // Remove the colon from the ID
- const data2 = await  User.destroy({ where: { id: id1 } })
- console.log(data2);
- res.status(201).json({data2});
-  }
+
+    res.status(500).json({ error: 'An error occurred while creating a user' });
     
-    catch(err)  {
-      console.log(err)
-    };
+  }
 };
+
 
 module.exports = {
   postUser,
-  getProduct,
-  deleteProduct
+  
 };
