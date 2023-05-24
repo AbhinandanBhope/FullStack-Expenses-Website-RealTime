@@ -98,7 +98,12 @@
   if (error.response && error.response.status === 404) {
     alert(`one or more fields error please try again`);
     // Perform any necessary actions for a failed login
-  } else {
+  } 
+  else if (error.response && error.response.status === 400) {
+    alert(` Incorrect password`);
+    // Perform any necessary actions for a failed login
+  } 
+  else {
     alert('An error occurred while logging in');
     console.log(error);
   }

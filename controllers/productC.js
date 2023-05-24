@@ -1,4 +1,5 @@
 const User = require('../User');
+const bcrypt = require('bcrypt');
 
 const postUser = async function (req, res, next) {
   try {
@@ -11,10 +12,11 @@ const postUser = async function (req, res, next) {
     }
 
     console.log(Name1);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const data = await User.create({
       Name: Name1,
       Gmail: gmail1,
-      password:password
+      password:hashedPassword
     });
 
    res.status(201).json({ data });
@@ -38,13 +40,28 @@ const LoginUser = async function (req, res, next) {
    const user = await User.findAll({
       where: {
         Gmail: gmail1,
-        password:password1,
         Name:Name1
       }
     }); 
     console.log(user);
-    if(user.length != 0){ 
-      res.status(201).json({ Name1});
+    if(user.length != 0){
+    
+      bcrypt.compare(password1,user[0].password, async (err,result) =>{
+        if(err){
+          return  res.status(404).json({ Name1});
+
+        }
+        if(result === true){
+        return  res.status(201).json({ Name1});
+
+        }
+        else{
+          console.log(err);
+          return res.status(400).json({})
+        }
+
+      }) 
+      
       
     }
     else if(user){
@@ -58,6 +75,7 @@ const LoginUser = async function (req, res, next) {
   } catch (err) {
     console.log(err);
   
+
 
     res.status(500).json({ error: 'An error occurred while creating a user' });
     
