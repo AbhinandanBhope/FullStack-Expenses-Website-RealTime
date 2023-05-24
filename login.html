@@ -13,7 +13,7 @@
   
   <div class="container">
     <div class="wrapper">
-      <div class="title"><span> Sign Up Form</span></div>
+      <div class="title"><span> Login Form</span></div>
       <form action="#">
         <div class="row">
           <i class="fas fa-user"></i>
@@ -28,20 +28,19 @@
           <input  name="PassWord" id="PassWord" type="password" placeholder="Password" required>
         </div>
         <div class="pass"><a href="#">Forgot password?</a></div>
-        <div class="row button">
-          <input type="submit" value="SignUp" onclick="UserADD(event)">
         
-          </div>
           <div class="row button">
-            <input type="submit" value="Login"  onclick="login()" >
+            <input type="submit" value="Login"  onclick="login(event)" >
           
         </div>
+        <div class="row button">
+            <input type="submit" value="SignUp" onclick="Signup()">
+          
+            </div>
         
         
       </form>
     </div>
-    </div>
-
 
     
         
@@ -52,7 +51,7 @@
  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
  <Script>
-  async function UserADD(event) {
+  async function login(event) {
     event.preventDefault();
   
     const Name1 = document.getElementById('Name').value;
@@ -63,9 +62,10 @@
               document.getElementById('PassWord').placeholder =  'Cannot be empty';
               document.getElementById('Name').placeholder =  'Cannot be empty';
 
-            } 
+            }
+            console.log(gmail1);
             
-     const obj ={
+     const obj2 ={
       Name1,
       password,
       gmail1
@@ -74,13 +74,16 @@
     
 
       
-     axios.post('http://localhost:3000/add',obj)
+     axios.get(`http://localhost:3000/login/${Name1}/${password}/${gmail1}`)
 .then(response => {
   
   const obj = response.data;
   if(response.status ===201){
-    window.location.href="file:///C:/Bokkingapp/BookingApp/forntend.html";
+    alert(`Hi ${ Name1} ur login success`)
+   // window.location.href="file:///C:/Bokkingapp/BookingApp/forntend.html";
+   window.location.href="file:///C:/Bokkingapp/BookingApp/loginsuccess.html";
   }
+  
 
   //showOutput(obj) ;
   console.log(response.status);
@@ -92,7 +95,7 @@
 })
 .catch(error => {
   
-  if (error.response && error.response.status === 500) {
+  if (error.response && error.response.status === 404) {
     alert(`one or more fields error please try again`);
     // Perform any necessary actions for a failed login
   } else {
@@ -101,16 +104,14 @@
   }
 
   
-
-  
   
   // Handle error
   console.log(error);
   console.log("hellow");
 });
   }
-   function login() {
-    window.location.href="file:///C:/Bokkingapp/BookingApp/login.html";
+   function Signup() {
+    window.location.href="file:///C:/Bokkingapp/BookingApp/forntend.html";
 
     
    }

@@ -15,8 +15,9 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true })); 
 const usersController = require('../controllers/productC');
 
-router.post('/add', usersController.postUser);
 
+router.post('/add', usersController.postUser);
+router.get('/login/:Name/:password/:gmail', usersController.LoginUser);
 
 
 
