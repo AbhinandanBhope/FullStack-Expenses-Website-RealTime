@@ -12,6 +12,7 @@ var cors = require('cors');
 const sequelize = require('./database');
 app.use(cors());
 const User = require('./User');
+const Expense = require('./expense');
 /*db.execute('SELECT * FROM users').
 then(result => {
   console.log(result);

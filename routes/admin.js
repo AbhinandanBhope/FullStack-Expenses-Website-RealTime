@@ -6,6 +6,7 @@ const express = require('express');
 const Sequelize =require('sequelize');
 const  sequelize = require('../database');
 const User = require('../User');
+const Expense = require('../expense');
 
 
 
@@ -18,6 +19,10 @@ const usersController = require('../controllers/productC');
 
 router.post('/add', usersController.postUser);
 router.get('/login/:Name/:password/:gmail', usersController.LoginUser);
+router.post('/addExp', usersController.postExp);
+router.get('/getExp', usersController.Getexp);
+router.delete('/delete/:Id',usersController.deleteExp);
+
 
 
 

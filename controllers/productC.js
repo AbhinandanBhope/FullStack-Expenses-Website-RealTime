@@ -1,5 +1,6 @@
 const User = require('../User');
 const bcrypt = require('bcrypt');
+const Expense = require('../expense');
 
 const postUser = async function (req, res, next) {
   try {
@@ -81,11 +82,66 @@ const LoginUser = async function (req, res, next) {
     
   }
 };
+const postExp = async function (req, res, next) {
+  try {
+    const id = 2;
+    const Name1 = req.body.Name1;
+    const amount1 = req.body.amount;
+    const Descp1= req.body.Descp;
+    if(Name1.length ==0 || amount1.length==0 || Descp1.length==0){                                                                     
+      res.status(404).json({ error: 'An error occurred while creating a user' });
+    }
+
+    console.log(Name1);
+                    
+    const data = await Expense.create({
+      Name: Name1,                   
+      amount: amount1,
+      Descp: Descp1
+    });
+
+   res.status(201).json({ data });
+  } catch (err) {
+    console.log(err);
+  
+
+    res.status(500).json({ error: 'An error occurred while creating a user' });
+    
+  }
+};
+const Getexp = async function(req, res)  {
+  try{
+  
+    await Expense.findAll().then((result) => {
+      const rows = result; 
+      res.json(rows);
+      
+    })}
+  
+    catch(err)  {
+      console.log(err)
+      
+    };
+    
+  };
+
+  const deleteExp = async function (req, res) {
+    
+    try {
+      const id1 = req.params.Id.replace(':', ''); 
+      await Expense.destroy({ where: { id: id1 } });
+      res.send(`User with ID ${id1} has been deleted.`);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send('An error occurred while deleting the user.');
+    }
+  };
+  
 
 
 
 
 module.exports = {
-  postUser, LoginUser
+  postUser, LoginUser ,postExp ,Getexp ,deleteExp
   
 };

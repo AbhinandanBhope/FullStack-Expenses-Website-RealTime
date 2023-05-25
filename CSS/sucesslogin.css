@@ -1,0 +1,28 @@
+.container-fluid{
+    background-color: rgb(2, 143, 87);
+    padding: 10px;
+}
+.navbar-brand{
+    color: antiquewhite;
+
+}
+.nav-link{
+    color: antiquewhite;
+}
+.nav-link active{
+    color: antiquewhite;
+}
+.nav-link disabled{
+    color: antiquewhite;
+}
+.form-control{
+    margin: 10px;
+}
+.input-group-text{
+    margin: 10px;
+}
+.space{
+margin: 10px;
+}
+
+
