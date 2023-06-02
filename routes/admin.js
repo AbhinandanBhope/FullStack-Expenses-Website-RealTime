@@ -23,7 +23,8 @@ router.get('/login/:Name/:password/:gmail', usersController.LoginUser);
 router.post('/addExp', usersController.postExp);
 router.get('/getExp',userauthenticate.authenticate, usersController.Getexp);
 router.delete('/delete/:Id',usersController.deleteExp);
-
+router.get('/premiummembership' ,userauthenticate.authenticate, usersController.purchasepremium);
+router.post('/purchase/updatetransactionstatus',userauthenticate.authenticate, usersController.updatetransactionstatus );
 
 
 

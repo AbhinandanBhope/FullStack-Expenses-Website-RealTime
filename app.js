@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+
 //const Sequelize = require('./database');
 const app = express();
 //app.use(cors())
@@ -13,6 +14,11 @@ const sequelize = require('./database');
 app.use(cors());
 const User = require('./User');
 const Expense = require('./expense');
+const Order = require('./orders');
+
+
+ 
+
 
 /*db.execute('SELECT * FROM users').
 then(result => {
@@ -50,6 +56,8 @@ app.use(express.json()); // for parsing application/
   
   User.hasMany(Expense);
   Expense.belongsTo(User);
+  User.hasMany(Order);
+  Order.belongsTo(User);
 
 
 
@@ -58,7 +66,7 @@ app.use(express.json()); // for parsing application/
 
 
 
-app.use(bodyParser.urlencoded({ extended: false  }));
+app.use(bodyParser.urlencoded({ extended: false}));
 sequelize.sync().then((result) => {
 
   console.log(result)

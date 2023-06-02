@@ -1,5 +1,5 @@
 .container-fluid{
-    background-color: rgb(2, 143, 87);
+    background-color: #16a085;
     padding: 10px;
 }
 .navbar-brand{
@@ -25,4 +25,6 @@
 margin: 10px;
 }
 
-
+.a{
+    margin: 10px;
+}

@@ -12,7 +12,7 @@ const Expense = sequelize.define('expense',{
     Descp: {
         type:Sequelize.STRING,
         allowNull: false,
-        unique: true, // Make Gmail column unique
+        unique: false, // Make Gmail column unique
       },
     amount:{
         type: Sequelize.DOUBLE,

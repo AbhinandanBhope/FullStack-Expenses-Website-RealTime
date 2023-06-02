@@ -2,7 +2,11 @@ const User = require('../User');
 const bcrypt = require('bcrypt');
 const Expense = require('../expense');
 const jwt = require('jsonwebtoken');
-const { where } = require('sequelize');
+const { where, Error } = require('sequelize');
+const  Razorpay =require('razorpay');
+const Orders = require('../orders');
+const Order = require('../orders');
+ 
 
 
 const postUser = async function (req, res, next) {
@@ -11,6 +15,7 @@ const postUser = async function (req, res, next) {
     const Name1 = req.body.Name1;
     const gmail1 = req.body.gmail1;
     const password = req.body.password;
+
     if(Name1.length ==0 || gmail1.length==0 || password.length==0){
       res.status(404).json({ error: 'An error occurred while creating a user' });
     }
@@ -37,7 +42,85 @@ function generateToken(id) {
 }
 var userId =0;
   
+const purchasepremium = async (req , res) =>{
+  
+  try{
+    console.log("SS ="+ req.user);
+    var rzp = new Razorpay({
+      key_id: "rzp_test_4sypayTXDhZHOU",
+      key_secret: "OL479bVSQYp8tW35PATPHcLt"
+    });
+    
+    const amount =2500;
+    rzp.orders.create({amount,currency:"INR"} , (err,order)=>{
+      if(err){
+        console.log(err);
+        throw new Error(JSON.stringify(err));
+      }
+     req.user.createOrder({orderid:order.id, status:"PENDING"}).then(()=>{
+      
+        return res.status(201).json({order,key_id:rzp.key_id});
+      }
+      ).catch(err =>{
+        throw new Error(err);
+      })
 
+      
+    })
+  } catch (err){
+    console.log(err);
+    res.send(403).json({message:"spmmmmm" ,error:err})
+  }
+}
+
+/*const updatetransactionstatus =(req ,res) => {
+  const {payment_id, order_id} =req.body;
+  Order.findOne({where:{orderid :order_id}}).then((order) => {
+    order.update({paymentid:payment_id ,status:'SUCCESSFUL'}).then(() => {
+      req.user.update({isPremumUser:true}).then(()=> {
+      
+      return res.status(202).json({sucess:true,message:"transaction Successful"});
+    }).catch((err) => {
+      console.log(err);
+      throw new Error(err);
+      
+    });
+    
+  }).catch((err) => {
+    console.log(err);
+    throw new Error(err);
+    
+  }).catch((err)=>{
+    console.log(err);
+    throw new Error(err);
+
+  })
+}
+  
+)
+} */
+const updatetransactionstatus = async (req, res) => {
+  try {
+    const { payment_id, order_id } = req.body;
+    const order = await Order.findOne({ where: { orderid: order_id } });
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    const updateOrderPromise = order.update({ paymentid: payment_id, status: 'SUCCESSFUL' });
+    const updateUserPromise = req.user.update({ isPremumUser: true });
+
+    await Promise.all([updateOrderPromise, updateUserPromise]);
+
+    return res.status(202).json({ success: true, message: 'Transaction successful' });
+  } catch (err) {
+    console.error('Error updating transaction status:', err);
+    return res.status(500).json({ success: false, message: 'An error occurred' });
+  }
+};
+
+ 
 
 const LoginUser = async function (req, res, next) {
   try {
@@ -124,7 +207,7 @@ const postExp = async function (req, res, next) {
 };
 const Getexp = async function(req, res) {
   try {
-    console.log(req.user);
+    console.log(req.user +"a");
      userId = req.user.id;
   
     await Expense.findAll({ where: { userId } }).then((result) => {
@@ -145,7 +228,8 @@ const Getexp = async function(req, res) {
       if(id1==undefined || id1.length==0){
         res.send(404);
       }
-      await Expense.destroy({ where: { id: id1 } });
+      await Expense.destroy({ where: { id: id1,
+      userId:userId } });
       res.send(`User with ID ${id1} has been deleted.`);
     } catch (err) {
       console.log(err);
@@ -158,6 +242,6 @@ const Getexp = async function(req, res) {
 
 
 module.exports = {
-  postUser, LoginUser ,postExp ,Getexp ,deleteExp
+  postUser, LoginUser ,postExp ,Getexp ,deleteExp , purchasepremium ,updatetransactionstatus
   
 };
