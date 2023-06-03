@@ -6,6 +6,7 @@ const { where, Error } = require('sequelize');
 const  Razorpay =require('razorpay');
 const Orders = require('../orders');
 const Order = require('../orders');
+const usersController = require('../controllers/productC');
  
 
 
@@ -37,8 +38,8 @@ const postUser = async function (req, res, next) {
     
   }
 };
-function generateToken(id) {
-  return jwt.sign({userId:id} ,'key')
+function generateToken(id , isPremumUser) {
+  return jwt.sign({userId:id , isPremumUser} ,'key')
 }
 var userId =0;
   
@@ -47,8 +48,8 @@ const purchasepremium = async (req , res) =>{
   try{
     console.log("SS ="+ req.user);
     var rzp = new Razorpay({
-      key_id: "rzp_test_4sypayTXDhZHOU",
-      key_secret: "OL479bVSQYp8tW35PATPHcLt"
+      key_id: "********",
+      key_secret: "********"
     });
     
     const amount =2500;
@@ -113,7 +114,7 @@ const updatetransactionstatus = async (req, res) => {
 
     await Promise.all([updateOrderPromise, updateUserPromise]);
 
-    return res.status(202).json({ success: true, message: 'Transaction successful' });
+    return res.status(202).json({ success: true, message: 'Transaction successful',  token:generateToken(userId,true)});
   } catch (err) {
     console.error('Error updating transaction status:', err);
     return res.status(500).json({ success: false, message: 'An error occurred' });
@@ -147,7 +148,7 @@ const LoginUser = async function (req, res, next) {
 
         }
         if(result === true){
-          const token = generateToken(user[0].id);
+          const token = generateToken(user[0].id,user[0].isPremumUser);
             return res.status(201).json({ Name1, token });
 
         }

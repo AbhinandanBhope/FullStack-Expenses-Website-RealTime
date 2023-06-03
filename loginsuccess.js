@@ -3,6 +3,7 @@
 //const { options } = require("./routes/admin");
 
 
+
 showAllProducts();
  
 async function UserExpense(event) {
@@ -81,6 +82,10 @@ console.log("hellow");
 
       })
       alert('You are premium user now')
+      document.getElementById('buyprim').style.visibility = "hidden";
+
+    
+      
 
     }
   }
@@ -95,13 +100,80 @@ console.log("hellow");
       alert("something went worng")
       
     })
-};
+}
+;
+document.getElementById('Show').onclick =  async function showLeaderBoard(e){
+  const  token =localStorage.getItem('token')
+  
+  axios.get('http://localhost:3000/getLeaderboard' ,{headers:{"Authorization":token}})
+  .then(response => {
+  
+  const obj3 = response.data;
+  console.log(response.data)
+  console.log(obj3);
+  const Pro2 = document.getElementById('Pro2');
+       Pro2.innerHTML = '';
+
+        obj3.forEach(item => {
+            const li = document.createElement('h4');
+            const iTEMMS = document.createTextNode("Name= "+item.name +" "+ "Price = "+item.totalcost+"  ");
+            
+            
+            
+            
+            
+            const Space = document.createElement('div');
+            Space.classList.add =("distance")
+            li.appendChild(iTEMMS);
+            
+            
+            
+            
+           
+            li.appendChild(Space);
+            Pro2.appendChild(li);
+        });
+          
+
+        
+            
+  
+
+  
+  
+  
+  
+  
+  
+  // Handle successful response
+  })
+  .catch(error => {
+  // Handle error
+  console.log(error);
+  });
+  
+
+}
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
 
 
 
 async function showAllProducts() {
   const token = localStorage.getItem('token')
-    
+  const decode = parseJwt(token);
+  console.log(decode);
+    if(decode.isPremumUser == true){
+        document.getElementById('buyprim').style.visibility = "hidden";
+
+    }
     axios.get('http://localhost:3000/getExp' ,{headers:{"Authorization":token}})
 .then(response => {
 
