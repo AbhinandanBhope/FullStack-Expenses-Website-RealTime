@@ -7,37 +7,41 @@ const  Razorpay =require('razorpay');
 const Orders = require('../orders');
 const Order = require('../orders');
 const usersController = require('../controllers/productC');
+const sequelize = require('../database');
  
-
-
 const postUser = async function (req, res, next) {
+  const transaction = await sequelize.transaction();
+  
   try {
     const id = 2;
     const Name1 = req.body.Name1;
     const gmail1 = req.body.gmail1;
     const password = req.body.password;
 
-    if(Name1.length ==0 || gmail1.length==0 || password.length==0){
+    if (Name1.length === 0 || gmail1.length === 0 || password.length === 0) {
       res.status(404).json({ error: 'An error occurred while creating a user' });
     }
 
     console.log(Name1);
     const hashedPassword = await bcrypt.hash(password, 10);
+    
     const data = await User.create({
       Name: Name1,
       Gmail: gmail1,
-      password:hashedPassword
-    });
+      password: hashedPassword
+    }, { transaction });
 
-   res.status(201).json({ data });
+    await transaction.commit();
+
+    res.status(201).json({ data });
   } catch (err) {
     console.log(err);
-  
+    await transaction.rollback();
 
     res.status(500).json({ error: 'An error occurred while creating a user' });
-    
   }
 };
+
 function generateToken(id , isPremumUser) {
   return jwt.sign({userId:id , isPremumUser} ,'key')
 }
@@ -101,24 +105,29 @@ const purchasepremium = async (req , res) =>{
 }
   
 )
-} */
-const updatetransactionstatus = async (req, res) => {
+} */const updatetransactionstatus = async (req, res) => {
+  const transaction = await sequelize.transaction();
+
   try {
     const { payment_id, order_id } = req.body;
     const order = await Order.findOne({ where: { orderid: order_id } });
 
     if (!order) {
+      await transaction.rollback();
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
 
-    const updateOrderPromise = order.update({ paymentid: payment_id, status: 'SUCCESSFUL' });
-    const updateUserPromise = req.user.update({ isPremumUser: true });
+    const updateOrderPromise = order.update({ paymentid: payment_id, status: 'SUCCESSFUL' }, { transaction });
+    const updateUserPromise = req.user.update({ isPremumUser: true }, { transaction });
 
     await Promise.all([updateOrderPromise, updateUserPromise]);
 
-    return res.status(202).json({ success: true, message: 'Transaction successful',  token:generateToken(userId,true)});
+    await transaction.commit();
+
+    return res.status(202).json({ success: true, message: 'Transaction successful', token: generateToken(userId, true) });
   } catch (err) {
     console.error('Error updating transaction status:', err);
+    await transaction.rollback();
     return res.status(500).json({ success: false, message: 'An error occurred' });
   }
 };
@@ -182,40 +191,39 @@ const LoginUser = async function (req, res, next) {
   }
 };
 const postExp = async function (req, res, next) {
+  const t = await sequelize.transaction();
   try {
     const id = 2;
     const Name1 = req.body.Name1;
     const amount1 = req.body.amount;
-    const Descp1= req.body.Descp;
-   // if(Name1.length == 0 || amount1.length==0 || Descp1.length==0){                                                                     
-    //  res.status(404).json({ error: 'An error occurred while creating a user' });
-   // }
+    const Descp1 = req.body.Descp;
 
     console.log(Name1);
-                    
+
     const data = await Expense.create({
-      Name: Name1,                   
+      Name: Name1,
       amount: amount1,
       Descp: Descp1,
-      userId:userId
-    });
-     TotalExpense = Number(TotalExpense)+ Number(amount1);
-    User.update({
-      TotalExpense: TotalExpense
-    },{ where:{id:userId}
+      userId: userId
+    }, { transaction: t });
 
-    })
+    const user = await User.findOne({ where: { id: userId } });
+    const TotalExpense = Number(user.TotalExpense) + Number(amount1);
+    
+    await user.update({ TotalExpense }, { transaction: t });
 
+    await t.commit();
 
-   res.status(201).json({ data });
+    res.status(201).json({ data });
   } catch (err) {
     console.log(err);
-  
+
+    await t.rollback();
 
     res.status(500).json({ error: 'An error occurred while creating a user' });
-    
   }
 };
+
 const Getexp = async function(req, res) {
   try {
     console.log(req.user +"a");
@@ -230,24 +238,45 @@ const Getexp = async function(req, res) {
     res.status(500).json({ error: 'An error occurred while retrieving expenses' });
   }
 };
-
-
-  const deleteExp = async function (req, res) {
-    
-    try {
-      const id1 = req.params.Id.replace(':', ''); 
-      if(id1==undefined || id1.length==0){
-        res.send(404);
-      }
-      await Expense.destroy({ where: { id: id1,
-      userId:userId } });
-      res.send(`User with ID ${id1} has been deleted.`);
-    } catch (err) {
-      console.log(err);
-      res.status(500).send('An error occurred while deleting the user.');
+const deleteExp = async function (req, res) {
+  let t;
+  try {
+    const id1 = req.params.Id.replace(':', '');
+    if (id1 == undefined || id1.length == 0) {
+      res.send(404);
     }
-  };
-  
+
+    t = await sequelize.transaction();
+
+    const expense = await Expense.findOne({ where: { id: id1, userId: userId } });
+
+    if (!expense) {
+      return res.status(404).send(`Expense with ID ${id1} not found.`);
+    }
+
+    await expense.destroy({ transaction: t });
+
+    const user = await User.findOne({ where: { id: userId } });
+    const TotalExpense = Number(user.TotalExpense) - Number(expense.amount);
+
+    await user.update({ TotalExpense }, { transaction: t });
+
+    await t.commit();
+
+    res.send(`Expense with ID ${id1} has been deleted.`);
+  } catch (err) {
+    console.log(err);
+
+    if (t) {
+      await t.rollback();
+    }
+
+    res.status(500).send('An error occurred while deleting the user.');
+  }
+};
+
+
+
 
 
 

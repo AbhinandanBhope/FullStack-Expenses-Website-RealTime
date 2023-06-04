@@ -37,6 +37,8 @@ if(response.status ===201){
 }
 
 showAllProducts();
+const Pro2 = document.getElementById('Pro2');
+Pro2.innerHTML = '';
 console.log(response.status);
 
 
@@ -102,7 +104,8 @@ console.log("hellow");
     })
 }
 ;
-document.getElementById('Show').onclick =  async function showLeaderBoard(e){
+document.getElementById('Show').onclick = showLeaderBoard;
+ async function showLeaderBoard(){
   const  token =localStorage.getItem('token')
   
   axios.get('http://localhost:3000/getLeaderboard' ,{headers:{"Authorization":token}})
@@ -248,6 +251,14 @@ const Pro = document.getElementById('Pro');
                 console.log('Successfully deleted item:', item);
                 console.log(response);
                 showAllProducts();
+                 const Pro2 = document.getElementById('Pro2');
+       Pro2.innerHTML = '';
+              
+    
+    
+    // Call showLeaderBoard function
+    
+
                 // Refresh the list after deletion
               
                 
