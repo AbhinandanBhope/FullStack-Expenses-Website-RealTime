@@ -42,6 +42,8 @@ function generateToken(id , isPremumUser) {
   return jwt.sign({userId:id , isPremumUser} ,'key')
 }
 var userId =0;
+var TotalExpense = 0;
+
   
 const purchasepremium = async (req , res) =>{
   
@@ -149,6 +151,7 @@ const LoginUser = async function (req, res, next) {
         }
         if(result === true){
           const token = generateToken(user[0].id,user[0].isPremumUser);
+           TotalExpense = user[0].TotalExpense;
             return res.status(201).json({ Name1, token });
 
         }
@@ -196,6 +199,13 @@ const postExp = async function (req, res, next) {
       Descp: Descp1,
       userId:userId
     });
+     TotalExpense = Number(TotalExpense)+ Number(amount1);
+    User.update({
+      TotalExpense: TotalExpense
+    },{ where:{id:userId}
+
+    })
+
 
    res.status(201).json({ data });
   } catch (err) {

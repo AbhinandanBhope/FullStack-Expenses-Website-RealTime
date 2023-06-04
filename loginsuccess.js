@@ -116,7 +116,7 @@ document.getElementById('Show').onclick =  async function showLeaderBoard(e){
 
         obj3.forEach(item => {
             const li = document.createElement('h4');
-            const iTEMMS = document.createTextNode("Name= "+item.Name +" "+ "Price = "+item.total_cost+"  ");
+            const iTEMMS = document.createTextNode("Name= "+item.Name +" "+ "Price = "+item.TotalExpense+"  ");
             
             
             
@@ -172,6 +172,11 @@ async function showAllProducts() {
   console.log(decode);
     if(decode.isPremumUser == true){
         document.getElementById('buyprim').style.visibility = "hidden";
+
+    }
+
+    else{
+      document.getElementById('Show').style.visibility = "hidden";
 
     }
     axios.get('http://localhost:3000/getExp' ,{headers:{"Authorization":token}})

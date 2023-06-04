@@ -16,16 +16,10 @@ const getLeaderboard = async function (req, res, next) {
     try {
 
         const LeaderBoard = await User.findAll({
-            attributes:['id','Name',[sequelize.fn('sum',sequelize.col('amount')),'total_cost']],
-            include:[{
-            
-                model:Expense,
-                as: 'expenses',
-                attributes:[]
-            }
-        ],
-        group:['user.Id'],
-        order:[['total_cost','DESC']]
+           
+        
+        
+        order:[['TotalExpense','DESC']]
 
 
         });
