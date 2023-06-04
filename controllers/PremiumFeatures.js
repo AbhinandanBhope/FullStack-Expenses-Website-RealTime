@@ -7,16 +7,31 @@ const  Razorpay =require('razorpay');
 const Orders = require('../orders');
 const Order = require('../orders');
 const usersController = require('../controllers/productC');
+const sequelize = require('../database');
+
  
 
 
 const getLeaderboard = async function (req, res, next) {
     try {
 
-        const users = await User.findAll();
-        const expenses = await Expense.findAll();
+        const LeaderBoard = await User.findAll({
+            attributes:['id','Name',[sequelize.fn('sum',sequelize.col('amount')),'total_cost']],
+            include:[{
+            
+                model:Expense,
+                as: 'expenses',
+                attributes:[]
+            }
+        ],
+        group:['user.Id'],
+        order:[['total_cost','DESC']]
+
+
+        });
+  
         const userAgreegate ={};
-        expenses.forEach((expense) => {
+        /*expenses.forEach((expense) => {
             if(userAgreegate[expense.userId] ){
             userAgreegate[expense.userId] =userAgreegate[expense.userId] +expense.amount;
             }
@@ -24,16 +39,17 @@ const getLeaderboard = async function (req, res, next) {
                 userAgreegate[expense.userId] =expense.amount
             }
             
-        });
+        }); */
         var usserLeaderBoardDetails =[];
-        users.forEach((user) => {
+       /* users.forEach((user) => {
             usserLeaderBoardDetails.push({name:user.Name,totalcost:userAgreegate[user.id] || 0})
 
             
         });
         console.log(usserLeaderBoardDetails);
         usserLeaderBoardDetails.sort((a,b)=>b.totalcost-a.totalcost)
-        res.status(200).json(usserLeaderBoardDetails);
+        res.status(200).json(expenses); */
+        res.status(200).json(LeaderBoard); 
     } catch (err) {
       console.log(err);
     

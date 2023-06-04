@@ -116,7 +116,7 @@ document.getElementById('Show').onclick =  async function showLeaderBoard(e){
 
         obj3.forEach(item => {
             const li = document.createElement('h4');
-            const iTEMMS = document.createTextNode("Name= "+item.name +" "+ "Price = "+item.totalcost+"  ");
+            const iTEMMS = document.createTextNode("Name= "+item.Name +" "+ "Price = "+item.total_cost+"  ");
             
             
             
@@ -132,7 +132,7 @@ document.getElementById('Show').onclick =  async function showLeaderBoard(e){
            
             li.appendChild(Space);
             Pro2.appendChild(li);
-        });
+        }); 
           
 
         
