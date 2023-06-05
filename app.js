@@ -15,6 +15,7 @@ app.use(cors());
 const User = require('./User');
 const Expense = require('./expense');
 const Order = require('./orders');
+const forgotPassword = require('./forgotPassword');
 
 
  
@@ -58,6 +59,8 @@ app.use(express.json()); // for parsing application/
   Expense.belongsTo(User);
   User.hasMany(Order);
   Order.belongsTo(User);
+  User.hasMany(forgotPassword);
+forgotPassword.belongsTo(User);
 
 
 
@@ -66,7 +69,7 @@ app.use(express.json()); // for parsing application/
 
 
 
-  
+
 app.use(bodyParser.urlencoded({ extended: false}));
 sequelize.sync().then((result) => {
 

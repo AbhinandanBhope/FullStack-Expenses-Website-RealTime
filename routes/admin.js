@@ -29,6 +29,8 @@ router.get('/premiummembership' ,userauthenticate.authenticate, usersController.
 router.post('/purchase/updatetransactionstatus',userauthenticate.authenticate, usersController.updatetransactionstatus );
 router.get('/getLeaderboard',userauthenticate.authenticate,premiumFeatures.getLeaderboard)
 router.get('/password/forgotpassword/:Gmail',userauthenticate.authenticate,forgotController.ForgotPass)
+router.get('/password/resetpassword/:id',forgotController.ResetPass);
+router.get('/password/updatepassword/:resetpasswordid', forgotController.updatepassword);
 
 
 
