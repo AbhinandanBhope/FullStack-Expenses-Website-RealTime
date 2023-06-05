@@ -17,6 +17,7 @@ const router = express.Router();
 router.use(bodyParser.json()); 
 router.use(bodyParser.urlencoded({ extended: true })); 
 const usersController = require('../controllers/productC');
+const forgotController = require('../controllers/forgotC');
 
 
 router.post('/add', usersController.postUser);
@@ -27,7 +28,7 @@ router.delete('/delete/:Id',usersController.deleteExp);
 router.get('/premiummembership' ,userauthenticate.authenticate, usersController.purchasepremium);
 router.post('/purchase/updatetransactionstatus',userauthenticate.authenticate, usersController.updatetransactionstatus );
 router.get('/getLeaderboard',userauthenticate.authenticate,premiumFeatures.getLeaderboard)
-
+router.get('/password/forgotpassword/:Gmail',userauthenticate.authenticate,forgotController.ForgotPass)
 
 
 

@@ -8,6 +8,7 @@ const Orders = require('../orders');
 const Order = require('../orders');
 const usersController = require('../controllers/productC');
 const sequelize = require('../database');
+require('dotenv').config();
  
 const postUser = async function (req, res, next) {
   const transaction = await sequelize.transaction();
@@ -54,8 +55,8 @@ const purchasepremium = async (req , res) =>{
   try{
     console.log("SS ="+ req.user);
     var rzp = new Razorpay({
-      key_id: "rzp_test_KsoSnUx5oC9h18",
-      key_secret: "9B0pYGVXvjGg788GxpScLyt5"
+      key_id: process.env.KEY_ID ,
+      key_secret: process.env.KEY_SECRET 
     });
     
     const amount =2500;
@@ -80,32 +81,8 @@ const purchasepremium = async (req , res) =>{
   }
 }
 
-/*const updatetransactionstatus =(req ,res) => {
-  const {payment_id, order_id} =req.body;
-  Order.findOne({where:{orderid :order_id}}).then((order) => {
-    order.update({paymentid:payment_id ,status:'SUCCESSFUL'}).then(() => {
-      req.user.update({isPremumUser:true}).then(()=> {
-      
-      return res.status(202).json({sucess:true,message:"transaction Successful"});
-    }).catch((err) => {
-      console.log(err);
-      throw new Error(err);
-      
-    });
-    
-  }).catch((err) => {
-    console.log(err);
-    throw new Error(err);
-    
-  }).catch((err)=>{
-    console.log(err);
-    throw new Error(err);
 
-  })
-}
-  
-)
-} */const updatetransactionstatus = async (req, res) => {
+const updatetransactionstatus = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {

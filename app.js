@@ -66,6 +66,7 @@ app.use(express.json()); // for parsing application/
 
 
 
+  
 app.use(bodyParser.urlencoded({ extended: false}));
 sequelize.sync().then((result) => {
 
