@@ -31,7 +31,7 @@ router.get('/getLeaderboard',userauthenticate.authenticate,premiumFeatures.getLe
 router.get('/password/forgotpassword/:Gmail',userauthenticate.authenticate,forgotController.ForgotPass)
 router.get('/password/resetpassword/:id',forgotController.ResetPass);
 router.get('/password/updatepassword/:resetpasswordid', forgotController.updatepassword);
-
+router.get('/user/download',userauthenticate.authenticate, usersController.donloadExp);
 
 
     

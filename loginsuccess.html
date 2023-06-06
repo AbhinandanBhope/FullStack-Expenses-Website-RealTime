@@ -71,10 +71,7 @@
     <input id="amount" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="0.0$">
   </div>
   
-<div class="input-group input-group-lg">
-    <span class="input-group-text" id="inputGroup-sizing-lg">Description</span>
-    <input id="Descp" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="description">
-  </div>
+
   <center>
     
     <select id ="Cat" class="form-select" aria-label="Default select example">
@@ -82,6 +79,7 @@
         <option value="1"> Housing or Rent</option>
         <option value="2"> Transportation</option>
         <option value="4">Utility Bills</option>
+
         <option value="5">Food and Groceries</option>
         <option value="6">Others</option>
       </select>
@@ -96,17 +94,77 @@
   
   <button type="button" onclick="UserExpense(event)" class="btn btn-outline-success">Add Expense</button>
   <button type="button" id="buyprim" class="btn btn-outline-success">Buy Prime</button>
+  <button onclick="download()" class="btn btn-outline-success "id="downloadexpense">Download File</button>
   <button type="button" id="Show" class="btn btn-outline-success">Show</button>
   
 
-    <h1>List</h1>
-    <div id="Pro"> 
-      
-    </div>
-    <h1>Leader Board</h1>
-    <div id="Pro2"> 
-      
-    </div>
+    
+  <div id="Pro2"> 
+    <h1 id="Leader"></h1>
+ 
+    
+    
+  </div>
+
+
+    
+<h1>Daily Expense</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+
+<h1>Yearly Expense</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+
+<h1>Report</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+
+
+    
+
    
 </center>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

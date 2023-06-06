@@ -11,7 +11,14 @@ async function UserExpense(event) {
 
   const Name1 = document.getElementById('NameE').value;
           const amount = document.getElementById('amount').value;
-          const Descp= document.getElementById('Descp').value;
+          
+          const catSelect = document.getElementById('Cat');
+          
+        
+        
+            const Descp= catSelect.options[catSelect.selectedIndex].text;
+          
+          
           if( Name1 == '' || amount=='' || Descp =='') {
             document.getElementById('NameE').placeholder =  'Cannot be empty';
             document.getElementById('amount').placeholder =  'Cannot be empty';
@@ -117,9 +124,15 @@ document.getElementById('Show').onclick = showLeaderBoard;
   const Pro2 = document.getElementById('Pro2');
        Pro2.innerHTML = '';
 
+        let i =1;
         obj3.forEach(item => {
+         
+        
+          
+
             const li = document.createElement('h4');
-            const iTEMMS = document.createTextNode("Name= "+item.Name +" "+ "Price = "+item.TotalExpense+"  ");
+            const iTEMMS = document.createTextNode( i+" "+item.Name +" "+"Amount = "+item.TotalExpense+"  ");
+            i++;
             
             
             
@@ -135,6 +148,7 @@ document.getElementById('Show').onclick = showLeaderBoard;
            
             li.appendChild(Space);
             Pro2.appendChild(li);
+            
         }); 
           
 
@@ -175,43 +189,117 @@ async function showAllProducts() {
   console.log(decode);
     if(decode.isPremumUser == true){
         document.getElementById('buyprim').style.visibility = "hidden";
+      
+      // Handle successful response
+  
 
     }
+  
+   
+
+
+
 
     else{
       document.getElementById('Show').style.visibility = "hidden";
+      
+      document.getElementById('downloadexpense').style.visibility = "hidden";
+        
+      
+    }
+      axios.get('http://localhost:3000/getExp' ,{headers:{"Authorization":token}})
+      .then(response => {
+      
+      const obj2 = response.data;
+      console.log(response.data.UserId)
+      console.log(obj2);
+      showOutput(obj2) ;
+      
+      
+      
+      
+      
+      // Handle successful response
+      })
+      .catch(error => {
+      // Handle error
+      console.log(error);
+      });
 
     }
-    axios.get('http://localhost:3000/getExp' ,{headers:{"Authorization":token}})
-.then(response => {
-
-const obj2 = response.data;
-console.log(response.data.UserId)
-console.log(obj2);
-showOutput(obj2) ;
-
-
-
-
-
-// Handle successful response
-})
-.catch(error => {
-// Handle error
-console.log(error);
-});
+  
+   
 
 function showOutput(obj2) {
 console.log(obj2);
+  // Assuming you have an array of expense objects called 'expenses'
+  
+
+  const tableBody = document.getElementById('expenseTableBody');
+
+  // Clear existing table rows
+  tableBody.innerHTML = '';
+
+  // Iterate over the expenses array and create table rows dynamically
+  obj2.forEach((item) => {
+    const row = document.createElement('tr');
+
+    // Create table cells for each column
+    const idCell = document.createElement('td');
+  
+
+    const textCell = document.createElement('td');
+    const textName = document.createTextNode(item.Name)
+    console.log(textCell);
+    textCell.appendChild(textName);
+
+    const amountCell = document.createElement('td');
+    
+    const amount = document.createTextNode(item.amount)
+    amountCell.appendChild(amount);
+
+    const categoryCell = document.createElement('td');
+    
+    const category = document.createTextNode(item.Descp)
+    
+    categoryCell.appendChild(category);
+
+    const actionsCell = document.createElement('td');
+    const deleteBtn = document.createElement('button')
+    deleteBtn.classList.add('button');
+    deleteBtn.textContent = 'Delete';
+    actionsCell.appendChild(deleteBtn);
+    deleteBtn.addEventListener('click', () => {
+      deleteItem(item);
+      console.log(item);
+
+  });
+    
+
+    // Append cells to the row
+    row.appendChild(idCell);
+    row.appendChild(textCell);
+    row.appendChild(amountCell);
+    row.appendChild(categoryCell);
+    row.appendChild(actionsCell);
+
+    // Append the row to the table body
+    tableBody.appendChild(row);
+  });
+}
+
+// Call the populateTable function to initially populate the table
 
 
 
-const Pro = document.getElementById('Pro');
+
+
+/*const Pro = document.getElementById('Pro');
        Pro.innerHTML = '';
 
         obj2.forEach(item => {
             const li = document.createElement('h4');
-            const iTEMMS = document.createTextNode("Name= "+item.Name +" Quantity= "+item.Descp +" Price= "+item.amount+"  ");
+            const iTEMMS = document.createTextNode("Name= "+item.Name +" Category= "+item.Descp +" Price= "+item.amount+"  ");
             const deleteBtn = document.createElement('button')
             deleteBtn.classList.add('button');
             
@@ -242,7 +330,7 @@ const Pro = document.getElementById('Pro');
            
             li.appendChild(Space);
             Pro.appendChild(li);
-        });
+        }); */
 
       async  function  deleteItem(item) {
         try{
@@ -270,8 +358,33 @@ const Pro = document.getElementById('Pro');
             };
     } 
     
-  }
+  
+ 
+  
+function download(){
+  
+  const token = localStorage.getItem('token')
+  
+  axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
+  .then((response) => {
+    console.log(response);
+      if(response.status === 200){
+          //the bcakend is essentially sending a download link
+          //  which if we open in browser, the file would download
+          var a = document.createElement("a");
+          a.href = response.data.fileUrl;
+          a.download = 'myexpense.csv';
+          a.click();
+      } else {
+          console.log("err");
+      }
+
+  })
+  .catch((err) => {
+      console.log(err)
+  });
 }
+
 
 
 

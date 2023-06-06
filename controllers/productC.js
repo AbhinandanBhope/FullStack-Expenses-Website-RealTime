@@ -9,6 +9,8 @@ const Order = require('../orders');
 const usersController = require('../controllers/productC');
 const sequelize = require('../database');
 require('dotenv').config();
+
+
  
 const postUser = async function (req, res, next) {
   const transaction = await sequelize.transaction();
@@ -208,7 +210,29 @@ const Getexp = async function(req, res) {
   
     await Expense.findAll({ where: { userId } }).then((result) => {
       const rows = result; 
-      res.json(rows);
+      
+      res.status(200).json({rows});
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while retrieving expenses' });
+  }
+};
+
+const donloadExp = async function(req, res) {
+  try {
+    console.log(req.user +"a");
+     userId = req.user.id;
+  
+    await Expense.findAll({ where: { userId } }).then((result) => {
+      const rows = result; 
+      
+      
+    const fileUrl = 'http://example.com/downloads/myexpense.csv';
+
+    
+    res.status(200).json({ fileUrl, rows });
+
     });
   } catch (err) {
     console.log(err);
@@ -259,6 +283,6 @@ const deleteExp = async function (req, res) {
 
 
 module.exports = {
-  postUser, LoginUser ,postExp ,Getexp ,deleteExp , purchasepremium ,updatetransactionstatus
+  postUser, LoginUser ,postExp ,Getexp ,deleteExp , purchasepremium ,updatetransactionstatus ,donloadExp
   
 };
