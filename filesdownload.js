@@ -1,23 +1,19 @@
 const  Sequelize  = require('sequelize');
 const sequelize = require('./database');
-const Expense = sequelize.define('expense',{
+const Downloads = sequelize.define('downloads',{
     id:{
         type:Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey:true
     },
-    Name:Sequelize.STRING,
     
-    Descp: {
+    
+    downloadedfiles: {
         type:Sequelize.STRING,
         allowNull: false,
         unique: false, // Make Gmail column unique
-      },
-    amount:{
-        type: Sequelize.DOUBLE,
-  allowNull: false
-    }
+      }
     
     
     
@@ -26,4 +22,4 @@ const Expense = sequelize.define('expense',{
     
     
 });
-module.exports = Expense;
+module.exports = Downloads;

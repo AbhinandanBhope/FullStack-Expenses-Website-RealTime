@@ -32,6 +32,7 @@ router.get('/password/forgotpassword/:Gmail',userauthenticate.authenticate,forgo
 router.get('/password/resetpassword/:id',forgotController.ResetPass);
 router.get('/password/updatepassword/:resetpasswordid', forgotController.updatepassword);
 router.get('/user/download',userauthenticate.authenticate, usersController.donloadExp);
+router.get('/Olddownload',userauthenticate.authenticate,premiumFeatures.SeeHistory);
 
 
     

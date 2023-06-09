@@ -123,7 +123,9 @@ document.getElementById('Show').onclick = showLeaderBoard;
   console.log(obj3);
   const Pro2 = document.getElementById('Pro2');
        Pro2.innerHTML = '';
-
+       if (Pro2.style.display === 'none') {
+        Pro2.style.display = 'block';
+      } 
         let i =1;
         obj3.forEach(item => {
          
@@ -132,7 +134,10 @@ document.getElementById('Show').onclick = showLeaderBoard;
 
             const li = document.createElement('h4');
             const iTEMMS = document.createTextNode( i+" "+item.Name +" "+"Amount = "+item.TotalExpense+"  ");
+
             i++;
+
+
             
             
             
@@ -150,7 +155,11 @@ document.getElementById('Show').onclick = showLeaderBoard;
             Pro2.appendChild(li);
             
         }); 
-          
+        const Hide = document.createElement('button')
+        Hide.classList.add('button');
+      Hide.textContent = 'Hide';
+          Pro2.appendChild(Hide);
+          Hide.onclick =remove;
 
         
             
@@ -171,6 +180,13 @@ document.getElementById('Show').onclick = showLeaderBoard;
   
 
 }
+function remove() {
+  const Pro2 = document.getElementById('Pro2');
+       Pro2.innerHTML = '';
+       Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+  
+  
+}
 function parseJwt (token) {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -184,6 +200,8 @@ function parseJwt (token) {
 
 
 async function showAllProducts() {
+  const Pro2 = document.getElementById('Pro2');
+  Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
   const token = localStorage.getItem('token')
   const decode = parseJwt(token);
   console.log(decode);
@@ -213,7 +231,11 @@ async function showAllProducts() {
       const obj2 = response.data;
       console.log(response.data.UserId)
       console.log(obj2);
-      showOutput(obj2) ;
+      
+  
+      showOutput(obj2.rows);
+    
+    
       
       
       
@@ -236,6 +258,10 @@ console.log(obj2);
   
 
   const tableBody = document.getElementById('expenseTableBody');
+  
+   
+  
+  
 
   // Clear existing table rows
   tableBody.innerHTML = '';
@@ -285,7 +311,7 @@ console.log(obj2);
 
     // Append the row to the table body
     tableBody.appendChild(row);
-  });
+  })
 }
 
 // Call the populateTable function to initially populate the table
@@ -371,11 +397,82 @@ function download(){
       if(response.status === 200){
           //the bcakend is essentially sending a download link
           //  which if we open in browser, the file would download
-          var a = document.createElement("a");
+         var a = document.createElement("a");
           a.href = response.data.fileUrl;
           a.download = 'myexpense.csv';
           a.click();
       } else {
+        alert("somthing went worng")
+          console.log("err");
+      }
+
+  })
+  .catch((err) => {
+      console.log(err)
+  });
+}
+function Showdownload(){
+  
+  const token = localStorage.getItem('token')
+  if (Pro2.style.display === 'none') {
+    Pro2.style.display = 'block';
+  } 
+  
+  axios.get('http://localhost:3000/Olddownload', { headers: {"Authorization" : token} })
+  .then((response) => {
+    console.log(response);
+      if(response.status === 200){
+        const Data9 = response.data.data8;
+        console.log(Data9);
+          //the bcakend is essentially sending a download link
+          //  which if we open in browser, the file would download
+          
+  const Pro2 = document.getElementById('Pro2');
+  Pro2.innerHTML = '';
+
+   let i =1;
+
+   Data9.forEach(item => {
+    console.log(item);
+    
+   
+     
+
+       const li = document.createElement('h4');
+       const iTEMMS = document.createTextNode( i+" "+item.downloadedfiles +" "+"Downloaded At = "+item.updatedAt+"  ");
+       i++;
+       
+       
+       
+    
+       
+       
+       const Space = document.createElement('div');
+              Space.classList.add =("distance")
+       li.appendChild(iTEMMS);
+       
+       
+       
+       
+      
+       li.appendChild(Space);
+       Pro2.appendChild(li);
+       
+        
+      })
+      
+      const Hide = document.createElement('button')
+      Hide.classList.add('button');
+    Hide.textContent = 'Hide';
+        Pro2.appendChild(Hide);
+        Hide.onclick =remove;
+
+      
+          
+
+
+     } else {
+        alert("somthing went worng")
           console.log("err");
       }
 

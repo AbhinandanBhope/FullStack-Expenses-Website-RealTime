@@ -16,6 +16,7 @@ const User = require('./User');
 const Expense = require('./expense');
 const Order = require('./orders');
 const forgotPassword = require('./forgotPassword');
+const Downloads = require('./filesdownload');
 
 
  
@@ -56,11 +57,14 @@ app.use(express.json()); // for parsing application/
   
   
   User.hasMany(Expense);
+  
   Expense.belongsTo(User);
   User.hasMany(Order);
   Order.belongsTo(User);
   User.hasMany(forgotPassword);
 forgotPassword.belongsTo(User);
+User.hasMany(Downloads);
+Downloads.belongsTo(User);
 
 
 

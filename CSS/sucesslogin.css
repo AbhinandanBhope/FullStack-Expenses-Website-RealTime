@@ -109,5 +109,21 @@ margin: 10px;
     background-color: #286090;
     border-color: #204d74;
   }
+  #Pro2 {
+    /* Set the desired position and dimensions of the container element */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 200px;
+    overflow: auto;
+   background-color: #e3eee3;
+  }
+  
+  .distance {
+    /* Add spacing or margin to the link element */
+    margin-bottom: 10px;
+  }
   
   

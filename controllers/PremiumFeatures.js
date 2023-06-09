@@ -8,6 +8,7 @@ const Orders = require('../orders');
 const Order = require('../orders');
 const usersController = require('../controllers/productC');
 const sequelize = require('../database');
+const Downloads =require('../filesdownload');
 
  
 
@@ -53,7 +54,27 @@ const getLeaderboard = async function (req, res, next) {
     }
   };
   
+const SeeHistory = async function (req, res, next) {
+  try {
+     const userId = req.user.id;
+  
+    await Downloads.findAll({ where: { userId } }).then((result) => {
+      const data8= result; 
+      
+      res.status(200).json({data8});
+
+    
+  })
+ } catch (err) {
+    console.log(err);
+  
+
+    res.status(500).json({ error: 'An error occurred while creating a user' });
+    
+  }
+};
+  
 module.exports = {
-getLeaderboard
+getLeaderboard , SeeHistory
     
   };
