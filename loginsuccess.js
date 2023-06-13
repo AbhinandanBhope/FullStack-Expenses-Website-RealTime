@@ -1,11 +1,46 @@
 
+window.addEventListener('DOMContentLoaded', () => {
+  const objUrlParams = new URLSearchParams(window.location.search);
+  const page = objUrlParams.get("page") || 1;
+  
+  const token = localStorage.getItem('token');
 
-//const { options } = require("./routes/admin");
+  axios.get(`http://localhost:3000/Pagination/products?page=${page} `,{Headers:{'Authorization':token}})
+    .then(( response) => {
+          
+    
+      const { Expenses, currentPage, hasNextPage, hasPreviousPage, lastPage } = response.data;
+      console.log(JSON.stringify(Expenses, null, 2)); 
+    
+      
+     console.log(response.data.data);
+    })
+    
+    .catch((error) => {
+      console.log("404"+error);
+    })
+});
+
+function showPagination({
+  currentPage,
+  hasNextPage,
+  nextPage,
+  hasPreviousPage,
+  lastPage,
+}) {
+ //pagination.innerHTML = '';
+  if (hasPreviousPage) {
+    // Add logic for handling previous page
+  }
+}
+
+function listProducts(products) {
+} 
 
 
 
 showAllProducts();
- 
+
 async function UserExpense(event) {
   event.preventDefault();
 
@@ -44,9 +79,9 @@ if(response.status ===201){
 }
 
 showAllProducts();
-const Pro2 = document.getElementById('Pro2');
-Pro2.innerHTML = '';
+
 console.log(response.status);
+Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
 
 
 
@@ -225,23 +260,28 @@ async function showAllProducts() {
         
       
     }
-      axios.get('http://localhost:3000/getExp' ,{headers:{"Authorization":token}})
-      .then(response => {
-      
-      const obj2 = response.data;
-      console.log(response.data.UserId)
-      console.log(obj2);
-      
+    const objUrlParams = new URLSearchParams(window.location.search);
+    const page = objUrlParams.get("page") || 1;
+    getProducts(page);
+  }
+    
+    function getProducts(page){
+      const token = localStorage.getItem('token')
+    
   
-      showOutput(obj2.rows);
-    
-    
+    axios.get(`http://localhost:3000/Pagination/products?page=${page} `,{Headers:{'Authorization':token}})
+      .then(( response) => {
+            
       
+        const { Expenses, currentPage, hasNextPage, hasPreviousPage, lastPage } = response.data;
+        console.log(JSON.stringify(Expenses, null, 2)); 
+        alert("HI")
       
-      
-      
-      
-      // Handle successful response
+        
+       console.log(response.data);
+       showOutput(response.data.data.Expenses) 
+       showPagination(response.data);
+
       })
       .catch(error => {
       // Handle error
@@ -250,11 +290,46 @@ async function showAllProducts() {
 
     }
   
-   
+
+   function showPagination({
+    currentPage ,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage,
+    previousPage,
+    lastPage
+
+   }){
+    
+  if(hasNextPage){
+    
+    const Pro3 = document.getElementById('pro3');
+    Pro3.innerHTML='';
+    const NextBtn = document.createElement('button')
+    NextBtn.classList.add('button');
+    NextBtn.textContent = 'Next';
+    NextBtn.addEventListener('click',()=> getProducts(currentPage+1));
+    Pro3.appendChild(NextBtn);
+
+  }
+  
+  if(hasPreviousPage){
+    const Pro3 = document.getElementById('pro3');
+    Pro3.innerHTML='';
+    const PreBut = document.createElement('button')
+    PreBut.classList.add('button');
+    PreBut.textContent = 'Previous';
+   PreBut.addEventListener('click',() => getProducts(previousPage));
+    Pro3.appendChild(PreBut);
+
+  }
+   }
 
 function showOutput(obj2) {
 console.log(obj2);
   // Assuming you have an array of expense objects called 'expenses'
+  
+
   
 
   const tableBody = document.getElementById('expenseTableBody');
@@ -311,6 +386,7 @@ console.log(obj2);
 
     // Append the row to the table body
     tableBody.appendChild(row);
+
   })
 }
 
@@ -319,45 +395,6 @@ console.log(obj2);
 
 
 
-
-/*const Pro = document.getElementById('Pro');
-       Pro.innerHTML = '';
-
-        obj2.forEach(item => {
-            const li = document.createElement('h4');
-            const iTEMMS = document.createTextNode("Name= "+item.Name +" Category= "+item.Descp +" Price= "+item.amount+"  ");
-            const deleteBtn = document.createElement('button')
-            deleteBtn.classList.add('button');
-            
-            
-            
-            
-            const Space = document.createElement('div');
-            Space.classList.add =("distance")
-            deleteBtn.appendChild(document.createTextNode('Delete'));
-
-            deleteBtn.addEventListener('click', () => {
-                deleteItem(item);
-                console.log(item);
-
-            });
-            
-  
-            
-            
-            
-            
-
-            li.appendChild(iTEMMS);
-            li.appendChild(deleteBtn);
-            
-            
-            
-           
-            li.appendChild(Space);
-            Pro.appendChild(li);
-        }); */
-
       async  function  deleteItem(item) {
         try{
        const response = await axios.delete(`http://localhost:3000/delete/${item.id}`)
@@ -365,9 +402,10 @@ console.log(obj2);
                 console.log('Successfully deleted item:', item);
                 console.log(response);
                 showAllProducts();
-                 const Pro2 = document.getElementById('Pro2');
-       Pro2.innerHTML = '';
-              
+                
+  const Pro2 = document.getElementById('Pro2');
+  Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+
     
     
     // Call showLeaderBoard function
@@ -377,11 +415,13 @@ console.log(obj2);
               
                 
         }
+        
             
             catch (error)  {
                 console.log('Error deleting item:', item);
                 console.log(error);
             };
+            
     } 
     
   

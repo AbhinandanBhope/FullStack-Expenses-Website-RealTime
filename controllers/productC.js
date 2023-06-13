@@ -9,6 +9,15 @@ const Order = require('../orders');
 const usersController = require('../controllers/productC');
 const sequelize = require('../database');
 require('dotenv').config();
+const AWS = require('aws-sdk');
+
+
+
+const Downloads = require('../filesdownload');
+
+var userId ;
+var TotalExpense ;
+
 
 
  
@@ -48,9 +57,6 @@ const postUser = async function (req, res, next) {
 function generateToken(id , isPremumUser) {
   return jwt.sign({userId:id , isPremumUser} ,'key')
 }
-var userId =0;
-var TotalExpense = 0;
-
   
 const purchasepremium = async (req , res) =>{
   
@@ -129,7 +135,8 @@ const LoginUser = async function (req, res, next) {
         
       }
     }); 
-    console.log(user);
+   userId = user[0].id;
+  
     if(user.length != 0){
     
       bcrypt.compare(password1,user[0].password, async (err,result) =>{
@@ -218,20 +225,76 @@ const Getexp = async function(req, res) {
     res.status(500).json({ error: 'An error occurred while retrieving expenses' });
   }
 };
+   function uploadToS3(data, fileName){
+  const BUCKET_NAME = process.env.BUCKET_NAME ;
+  const IAM_USER_KEY =process.env.IAM_USER_KEY;
+  const  IM_USER_SECRET =process.env.IM_USER_SECRET;
+  let s3Bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY ,
+    secretAccessKey : IM_USER_SECRET,
+   // Bucket: BUCKET_NAME
+  })
+  
+    var params ={
+      Bucket:BUCKET_NAME,
+      Key:fileName,
+      Body:data ,
+      ACL: 'public-read'
+    }
+    return new Promise((resolve, reject) => {
+    s3Bucket.upload(params,(err , s3response) =>{
+      if(err){
+        reject(err);
+        console.log('something went worng'+err);
+        alert(err);
+
+      }
+      else{
+        console.log('SUCCESS'+ s3response);
+        resolve (s3response.Location);
+      }
+    })
+    })
+  }
+  
+
+
+  
+
 
 const donloadExp = async function(req, res) {
   try {
+    
     console.log(req.user +"a");
      userId = req.user.id;
   
-    await Expense.findAll({ where: { userId } }).then((result) => {
+    await Expense.findAll({ where: { userId } }).then(async (result) => {
       const rows = result; 
+      const StrigifyEXp = JSON.stringify(rows);
+      //it should depends on the UserId
+      const UserID = req.user.id;
       
-      
-    const fileUrl = 'http://example.com/downloads/myexpense.csv';
+    const fileName = `myexpense${UserID}/${new Date()}.txt`;
+    const fileUrl =   await uploadToS3( StrigifyEXp ,fileName);
+    
+    const data4 = await Downloads.create({
+      userId: UserID,
+    downloadedfiles: fileUrl
 
     
-    res.status(200).json({ fileUrl, rows });
+    
+      
+    });
+    console.log(data4);
+    
+    
+
+    
+  
+    
+
+    
+    res.status(200).json({ fileUrl, success:true});
 
     });
   } catch (err) {
@@ -276,6 +339,41 @@ const deleteExp = async function (req, res) {
   }
 };
 
+      
+      
+const GetProducts = async function(req, res, next) {
+  try {
+    const page = +req.query.page || 1;
+  
+    const itemsPerPage =2;
+
+    let totalItems = await Expense.count({ where: { userId } });
+
+    const EXPense = await Expense.findAll({
+      limit: itemsPerPage,
+      offset: (page - 1) * itemsPerPage,
+      where: { userId },
+    });
+    
+    const response = {
+      data: {
+        Expenses: EXPense,
+      },
+      currentPage: page,
+      hasNextPage: page + 1,
+      hasPreviousPage: page > 1,
+      lastPage: Math.ceil(totalItems / itemsPerPage),
+    };
+
+
+    res.json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occurred while retrieving expenses' });
+  }
+};
+
+
 
 
 
@@ -283,6 +381,6 @@ const deleteExp = async function (req, res) {
 
 
 module.exports = {
-  postUser, LoginUser ,postExp ,Getexp ,deleteExp , purchasepremium ,updatetransactionstatus ,donloadExp
+  postUser, LoginUser ,postExp ,Getexp ,deleteExp , purchasepremium ,updatetransactionstatus ,donloadExp ,GetProducts
   
 };
