@@ -3,6 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
 
 //const Sequelize = require('./database');
 const app = express();
@@ -17,6 +19,13 @@ const Expense = require('./expense');
 const Order = require('./orders');
 const forgotPassword = require('./forgotPassword');
 const Downloads = require('./filesdownload');
+const morgan = require('morgan');
+
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined'));
+
 
 
  
@@ -38,6 +47,7 @@ app.use(adminRoutes);
 app.use(express.json()); // for parsing application/
 
   
+
 
 
   /*app.delete('/delete/:Id',  async (req, res) => {
