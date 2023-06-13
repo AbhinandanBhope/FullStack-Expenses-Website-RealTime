@@ -15,10 +15,6 @@ const AWS = require('aws-sdk');
 
 const Downloads = require('../filesdownload');
 
-var userId ;
-var TotalExpense ;
-
-
 
  
 const postUser = async function (req, res, next) {
@@ -57,6 +53,9 @@ const postUser = async function (req, res, next) {
 function generateToken(id , isPremumUser) {
   return jwt.sign({userId:id , isPremumUser} ,'key')
 }
+var userId =0;
+var TotalExpense = 0;
+
   
 const purchasepremium = async (req , res) =>{
   
@@ -135,8 +134,7 @@ const LoginUser = async function (req, res, next) {
         
       }
     }); 
-   userId = user[0].id;
-  
+    userId = user[0].id;
     if(user.length != 0){
     
       bcrypt.compare(password1,user[0].password, async (err,result) =>{
@@ -343,9 +341,12 @@ const deleteExp = async function (req, res) {
       
 const GetProducts = async function(req, res, next) {
   try {
+     
     const page = +req.query.page || 1;
+    const number = +req.query.numberitem || 2;
+
   
-    const itemsPerPage =2;
+    const itemsPerPage =number;
 
     let totalItems = await Expense.count({ where: { userId } });
 

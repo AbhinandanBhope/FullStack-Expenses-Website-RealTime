@@ -1,42 +1,4 @@
 
-window.addEventListener('DOMContentLoaded', () => {
-  const objUrlParams = new URLSearchParams(window.location.search);
-  const page = objUrlParams.get("page") || 1;
-  
-  const token = localStorage.getItem('token');
-
-  axios.get(`http://localhost:3000/Pagination/products?page=${page} `,{Headers:{'Authorization':token}})
-    .then(( response) => {
-          
-    
-      const { Expenses, currentPage, hasNextPage, hasPreviousPage, lastPage } = response.data;
-      console.log(JSON.stringify(Expenses, null, 2)); 
-    
-      
-     console.log(response.data.data);
-    })
-    
-    .catch((error) => {
-      console.log("404"+error);
-    })
-});
-
-function showPagination({
-  currentPage,
-  hasNextPage,
-  nextPage,
-  hasPreviousPage,
-  lastPage,
-}) {
- //pagination.innerHTML = '';
-  if (hasPreviousPage) {
-    // Add logic for handling previous page
-  }
-}
-
-function listProducts(products) {
-} 
-
 
 
 showAllProducts();
@@ -109,7 +71,7 @@ console.log("hellow");
 }
  document.getElementById('buyprim').onclick = async function (e){
   
-  const  token =localStorage.getItem('token')
+  const  token =localStorage.getItem('token');
   console.log(token);
   
   const response = await axios.get('http://localhost:3000/premiummembership', { headers: { "Authorization": token } });
@@ -267,9 +229,11 @@ async function showAllProducts() {
     
     function getProducts(page){
       const token = localStorage.getItem('token')
+      const numberitem = parseInt(localStorage.getItem('NoItemserPage'));
     
   
-    axios.get(`http://localhost:3000/Pagination/products?page=${page} `,{Headers:{'Authorization':token}})
+    axios.get(`http://localhost:3000/Pagination/products?page=${page}&numberitem=${numberitem}`
+    ,{headers:{'Authorization':token}})
       .then(( response) => {
             
       
@@ -522,7 +486,12 @@ function Showdownload(){
   });
 }
 
+ function SetNoOfItmes(){
+  const R = document.getElementById('Row').value;
+  localStorage.setItem('NoItemserPage' ,R);
+  
 
+}
 
 
 
