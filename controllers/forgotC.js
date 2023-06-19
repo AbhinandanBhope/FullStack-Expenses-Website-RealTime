@@ -25,7 +25,7 @@ const ForgotPass = async function (req, res, next) {
     try {  
         const Gmail = req.params.Gmail;
         const user = await User.findOne({where : { Gmail }});
-        if(user){
+        if(user != null){
             const id = uuid.v4();
             user.createForgotpassword({ id , active: true })
                 .catch(err => {
@@ -52,7 +52,7 @@ const ForgotPass = async function (req, res, next) {
         textContent:"Hi",
 
         htmlContent: ` <h1>HI</h1>
-        <a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
+        <a href="http://http://18.234.103.64:3000/password/resetpassword/${id}">Reset password</a>`
 
 
     })
@@ -65,6 +65,10 @@ const ForgotPass = async function (req, res, next) {
     
         
         
+
+      }
+      else {
+        res.status(500).json({});
       }
     }
     catch(err){

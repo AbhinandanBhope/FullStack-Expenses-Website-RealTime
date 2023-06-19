@@ -3,10 +3,14 @@ document.getElementById('forgotGmail').onclick = ForgotPassword;
   const  token =localStorage.getItem('token')
   const Gmail = document.getElementById('Gmail').value;
   
-  axios.get(`http://localhost:3000/password/forgotpassword/${Gmail} ` ,{headers:{"Authorization":token}})
-  .then(response => {
+  axios.get(`http://http://18.234.103.64:3000/password/forgotpassword/${Gmail} ` ,{headers:{"Authorization":token}})
+  .then(res => {
   
-  console.log(response);
+  console.log(res.status);
+  if(res.status == 500){
+    alert('Email not found')
+  }
+
 
     
         
@@ -27,6 +31,7 @@ document.getElementById('forgotGmail').onclick = ForgotPassword;
   })
   .catch(error => {
   // Handle error
+  alert("This email is not found")
   console.log(error);
   });
   

@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const helmet = require('helmet');
+
 const compression = require('compression');
 
 //const Sequelize = require('./database');
@@ -19,17 +19,17 @@ const Expense = require('./expense');
 const Order = require('./orders');
 const forgotPassword = require('./forgotPassword');
 const Downloads = require('./filesdownload');
-const morgan = require('morgan');
 const routes =require('./routes/admin');
 app.use(routes);
 
 app.use(cors());
 
-
-app.use(helmet());
 app.use(compression());
-app.use(morgan('combined'));
+//app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'CSS')))
+app.use((req,res) =>{
+  res.sendFile(path.join(__dirname,`public${req.url}`))
+})
 
 
 

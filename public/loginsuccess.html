@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/sucesslogin.css">
+</head>
+
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://i0.wp.com/zenatta.com/wp-content/uploads/2020/08/expense-256.png?fit=322%2C322&ssl=1" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                Expenses App
+              </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-danger" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      
+
+        
+            
+    
+          
+          
+        
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <div class="input-group input-group-lg">
+    <span class="input-group-text" id="inputGroup-sizing-lg">Add Text</span>
+    <input id="NameE" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Text">
+  </div>
+  
+<div class="input-group input-group-lg">
+    <span class="input-group-text" id="inputGroup-sizing-lg">Amount</span>
+    <input id="amount" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="0.0$">
+  </div>
+  
+
+  <center>
+    
+    <select id ="Cat" class="form-select" aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        <option value="1"> Housing or Rent</option>
+        <option value="2"> Transportation</option>
+        <option value="4">Utility Bills</option>
+
+        <option value="5">Food and Groceries</option>
+        <option value="6">Others</option>
+      </select>
+  </div>
+  </center>
+  <div class="space"></div>
+  <center>
+ 
+</center>
+<div class="a"></div>
+<center>
+  
+  <button type="button" onclick="UserExpense(event)" class="btn btn-outline-success">Add Expense</button>
+  <button type="button" id="buyprim" class="btn btn-outline-success">Buy Prime</button>
+  <button onclick="download()" class="btn btn-outline-success "id="downloadexpense">Download File</button>
+  <button onclick="Showdownload()" class="btn btn-outline-success "id="downloadexpense"> Old Downloads</button>
+  <button type="button" id="Show" class="btn btn-outline-success">Show</button>
+  <br><br>
+
+  <label for="Rows">Rows Per Page:</label>
+  <select name="row" id="Row">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
+  <br><br>
+  <input type="submit" class="button" value="Submit" onclick="SetNoOfItmes()">
+</form>
+  
+
+    
+  <div id="Pro2"> 
+    <h1 id="Leader"></h1>
+ 
+    
+    
+  </div>
+
+
+    
+<h1>Daily Expense</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+<div id ="pro3">
+
+</div>
+
+<h1>Yearly Expense</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+
+<h1>Report</h1>
+<div id="Pro">
+  <table id="expenseTable" class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Text</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Category</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody">
+      <!-- Table body will be dynamically populated -->
+    </tbody>
+  </table>
+</div>
+
+
+    
+
+   
+</center>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script >
+
+
+  showAllProducts();
+  
+  async function UserExpense(event) {
+    event.preventDefault();
+  
+    const Name1 = document.getElementById('NameE').value;
+            const amount = document.getElementById('amount').value;
+            
+            const catSelect = document.getElementById('Cat');
+            
+          
+          
+              const Descp= catSelect.options[catSelect.selectedIndex].text;
+            
+            
+            if( Name1 == '' || amount=='' || Descp =='') {
+              document.getElementById('NameE').placeholder =  'Cannot be empty';
+              document.getElementById('amount').placeholder =  'Cannot be empty';
+              document.getElementById('Descp').placeholder =  'Cannot be empty';
+  
+            } 
+            
+     const obj ={
+      Name1,
+      amount,
+      Descp
+     };
+  
+    
+     const token = localStorage.getItem('token');
+      
+     axios.post('http://18.234.103.64:3000/addExp',obj,{Headers:{'Authorization':token}})
+  .then(response => {
+  
+  const obj2 = response.data;
+  if(response.status ===201){
+    //window.location.href="file:///C:/Bokkingapp/BookingApp/forntend.html";
+  }
+  
+  showAllProducts();
+  
+  console.log(response.status);
+  Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+  
+  
+  
+  
+  // Handle successful response
+  })
+  .catch(error => {
+  
+  if (error.response && error.response.status === 500) {
+    alert(`one or more fields error please try again`);
+    // Perform any necessary actions for a failed login
+  } else {
+    alert('An error occurred while logging in');
+    console.log(error);
+  }
+  
+  
+  
+  
+  
+  // Handle error
+  console.log(error);
+  console.log("hellow");
+  });
+  }
+   document.getElementById('buyprim').onclick = async function (e){
+    
+    const  token =localStorage.getItem('token');
+    console.log(token);
+    
+    const response = await axios.get('http://http:18.234.103.64:3000/premiummembership', { headers: { "Authorization": token } });
+  
+    console.log(response);
+    var options ={
+      "key":response.data.key_id,
+      "order_id":response.data.order.id,
+      "handler" : async function(response){
+        await axios.post('http:18.234.103.64:3000/purchase/updatetransactionstatus' ,{
+        order_id: options.order_id ,
+        payment_id: response.razorpay_payment_id, },
+        {headers:{"Authorization": token}
+  
+        })
+        alert('You are premium user now')
+        document.getElementById('buyprim').style.visibility = "hidden";
+  
+      
+        
+  
+      }
+    }
+    
+   
+   var rzp1 = new Razorpay(options);
+  
+      rzp1.open();
+      e.preventDefault();
+      rzp1.on('payment.failed',function (response) {
+        console.log(response);
+        alert("something went worng")
+        
+      })
+  }
+  ;
+  document.getElementById('Show').onclick = showLeaderBoard;
+   async function showLeaderBoard(){
+    const  token =localStorage.getItem('token')
+    
+    axios.get('http:18.234.103.64:3000/getLeaderboard' ,{headers:{"Authorization":token}})
+    .then(response => {
+    
+    const obj3 = response.data;
+    console.log(response.data)
+    console.log(obj3);
+    const Pro2 = document.getElementById('Pro2');
+         Pro2.innerHTML = '';
+         if (Pro2.style.display === 'none') {
+          Pro2.style.display = 'block';
+        } 
+          let i =1;
+          obj3.forEach(item => {
+           
+          
+            
+  
+              const li = document.createElement('h4');
+              const iTEMMS = document.createTextNode( i+" "+item.Name +" "+"Amount = "+item.TotalExpense+"  ");
+  
+              i++;
+  
+  
+              
+              
+              
+              
+              
+              const Space = document.createElement('div');
+              Space.classList.add =("distance")
+              li.appendChild(iTEMMS);
+              
+              
+              
+              
+             
+              li.appendChild(Space);
+              Pro2.appendChild(li);
+              
+          }); 
+          const Hide = document.createElement('button')
+          Hide.classList.add('button');
+        Hide.textContent = 'Hide';
+            Pro2.appendChild(Hide);
+            Hide.onclick =remove;
+  
+          
+              
+    
+  
+    
+    
+    
+    
+    
+    
+    // Handle successful response
+    })
+    .catch(error => {
+    // Handle error
+    console.log(error);
+    });
+    
+  
+  }
+  function remove() {
+    const Pro2 = document.getElementById('Pro2');
+         Pro2.innerHTML = '';
+         Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+    
+    
+  }
+  function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    return JSON.parse(jsonPayload);
+  }
+  
+  
+  
+  async function showAllProducts() {
+    const Pro2 = document.getElementById('Pro2');
+    Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+    const token = localStorage.getItem('token')
+    const decode = parseJwt(token);
+    console.log(decode);
+      if(decode.isPremumUser == true){
+          document.getElementById('buyprim').style.visibility = "hidden";
+        
+        // Handle successful response
+    
+  
+      }
+    
+     
+  
+  
+  
+  
+      else{
+        document.getElementById('Show').style.visibility = "hidden";
+        
+        document.getElementById('downloadexpense').style.visibility = "hidden";
+          
+        
+      }
+      const objUrlParams = new URLSearchParams(window.location.search);
+      const page = objUrlParams.get("page") || 1;
+      getProducts(page);
+    }
+      
+      function getProducts(page){
+        const token = localStorage.getItem('token')
+        const numberitem = parseInt(localStorage.getItem('NoItemserPage'));
+      
+    
+      axios.get(`http://18.234.103.64:3000/Pagination/products?page=${page}&numberitem=${numberitem}`
+      ,{headers:{'Authorization':token}})
+        .then(( response) => {
+              
+        
+          const { Expenses, currentPage, hasNextPage, hasPreviousPage, lastPage } = response.data;
+          console.log(JSON.stringify(Expenses, null, 2)); 
+          alert("HI")
+        
+          
+         console.log(response.data);
+         showOutput(response.data.data.Expenses) 
+         showPagination(response.data);
+  
+        })
+        .catch(error => {
+        // Handle error
+        console.log(error);
+        });
+  
+      }
+    
+  
+     function showPagination({
+      currentPage ,
+      hasNextPage,
+      nextPage,
+      hasPreviousPage,
+      previousPage,
+      lastPage
+  
+     }){
+      
+    if(hasNextPage){
+      
+      const Pro3 = document.getElementById('pro3');
+      Pro3.innerHTML='';
+      const NextBtn = document.createElement('button')
+      NextBtn.classList.add('button');
+      NextBtn.textContent = 'Next';
+      NextBtn.addEventListener('click',()=> getProducts(currentPage+1));
+      Pro3.appendChild(NextBtn);
+  
+    }
+    
+    if(hasPreviousPage){
+      const Pro3 = document.getElementById('pro3');
+      Pro3.innerHTML='';
+      const PreBut = document.createElement('button')
+      PreBut.classList.add('button');
+      PreBut.textContent = 'Previous';
+     PreBut.addEventListener('click',() => getProducts(previousPage));
+      Pro3.appendChild(PreBut);
+  
+    }
+     }
+  
+  function showOutput(obj2) {
+  console.log(obj2);
+    // Assuming you have an array of expense objects called 'expenses'
+    
+  
+    
+  
+    const tableBody = document.getElementById('expenseTableBody');
+    
+     
+    
+    
+  
+    // Clear existing table rows
+    tableBody.innerHTML = '';
+  
+    // Iterate over the expenses array and create table rows dynamically
+    obj2.forEach((item) => {
+      const row = document.createElement('tr');
+  
+      // Create table cells for each column
+      const idCell = document.createElement('td');
+    
+  
+      const textCell = document.createElement('td');
+      const textName = document.createTextNode(item.Name)
+      console.log(textCell);
+      textCell.appendChild(textName);
+  
+      const amountCell = document.createElement('td');
+      
+      const amount = document.createTextNode(item.amount)
+      amountCell.appendChild(amount);
+  
+      const categoryCell = document.createElement('td');
+      
+      const category = document.createTextNode(item.Descp)
+      
+      categoryCell.appendChild(category);
+  
+      const actionsCell = document.createElement('td');
+      const deleteBtn = document.createElement('button')
+      deleteBtn.classList.add('button');
+      deleteBtn.textContent = 'Delete';
+      actionsCell.appendChild(deleteBtn);
+      deleteBtn.addEventListener('click', () => {
+        deleteItem(item);
+        console.log(item);
+  
+    });
+      
+  
+      // Append cells to the row
+      row.appendChild(idCell);
+      row.appendChild(textCell);
+      row.appendChild(amountCell);
+      row.appendChild(categoryCell);
+      row.appendChild(actionsCell);
+  
+      // Append the row to the table body
+      tableBody.appendChild(row);
+  
+    })
+  }
+  
+  // Call the populateTable function to initially populate the table
+  
+  
+  
+  
+        async  function  deleteItem(item) {
+          try{
+         const response = await axios.delete(`http://18.234.103.64:3000/delete/${item.id}`)
+              
+                  console.log('Successfully deleted item:', item);
+                  console.log(response);
+                  showAllProducts();
+                  
+    const Pro2 = document.getElementById('Pro2');
+    Pro2.style.display = Pro2.style.display === 'none' ? 'block' : 'none';
+  
+      
+      
+      // Call showLeaderBoard function
+      
+  
+                  // Refresh the list after deletion
+                
+                  
+          }
+          
+              
+              catch (error)  {
+                  console.log('Error deleting item:', item);
+                  console.log(error);
+              };
+              
+      } 
+      
+    
+   
+    
+  function download(){
+    
+    const token = localStorage.getItem('token')
+    
+    axios.get('http://18.234.103.64:3000/user/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+      console.log(response);
+        if(response.status === 200){
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+           var a = document.createElement("a");
+            a.href = response.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+          alert("somthing went worng")
+            console.log("err");
+        }
+  
+    })
+    .catch((err) => {
+        console.log(err)
+    });
+  }
+  function Showdownload(){
+    
+    const token = localStorage.getItem('token')
+    if (Pro2.style.display === 'none') {
+      Pro2.style.display = 'block';
+    } 
+    
+    axios.get('localhost:3000/Olddownload', { headers: {"Authorization" : token} })
+    .then((response) => {
+      console.log(response);
+        if(response.status === 200){
+          const Data9 = response.data.data8;
+          console.log(Data9);
+            //the bcakend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            
+    const Pro2 = document.getElementById('Pro2');
+    Pro2.innerHTML = '';
+  
+     let i =1;
+  
+     Data9.forEach(item => {
+      console.log(item);
+      
+     
+       
+  
+         const li = document.createElement('h4');
+         const iTEMMS = document.createTextNode( i+" "+item.downloadedfiles +" "+"Downloaded At = "+item.updatedAt+"  ");
+         i++;
+         
+         
+         
+      
+         
+         
+         const Space = document.createElement('div');
+                Space.classList.add =("distance")
+         li.appendChild(iTEMMS);
+         
+         
+         
+         
+        
+         li.appendChild(Space);
+         Pro2.appendChild(li);
+         
+          
+        })
+        
+        const Hide = document.createElement('button')
+        Hide.classList.add('button');
+      Hide.textContent = 'Hide';
+          Pro2.appendChild(Hide);
+          Hide.onclick =remove;
+  
+        
+            
+  
+  
+       } else {
+          alert("somthing went worng")
+            console.log("err");
+        }
+  
+    })
+    .catch((err) => {
+        console.log(err)
+    });
+  }
+  
+   function SetNoOfItmes(){
+    const R = document.getElementById('Row').value;
+    localStorage.setItem('NoItemserPage' ,R);
+    
+  
+  }
+  
+  
+  
+  
+  </script>
+  
+    
+</body>
+</html>
