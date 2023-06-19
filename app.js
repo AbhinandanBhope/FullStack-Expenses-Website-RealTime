@@ -8,7 +8,7 @@ const compression = require('compression');
 
 //const Sequelize = require('./database');
 const app = express();
-app.use(routes);
+
 //app.use(cors())
 app.set('view engine', 'ejs');
 const adminRoutes = require('./routes/admin');
@@ -20,7 +20,8 @@ const Order = require('./orders');
 const forgotPassword = require('./forgotPassword');
 const Downloads = require('./filesdownload');
 const morgan = require('morgan');
-const routes =require('./routes');
+const routes =require('./routes/admin');
+app.use(routes);
 
 app.use(cors());
 
