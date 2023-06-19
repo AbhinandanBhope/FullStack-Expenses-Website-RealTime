@@ -8,23 +8,29 @@ const compression = require('compression');
 
 //const Sequelize = require('./database');
 const app = express();
+app.use(routes);
 //app.use(cors())
 app.set('view engine', 'ejs');
 const adminRoutes = require('./routes/admin');
 var cors = require('cors');
 const sequelize = require('./database');
-app.use(cors());
 const User = require('./User');
 const Expense = require('./expense');
 const Order = require('./orders');
 const forgotPassword = require('./forgotPassword');
 const Downloads = require('./filesdownload');
 const morgan = require('morgan');
+const routes =require('./routes');
+
+app.use(cors());
 
 
 app.use(helmet());
 app.use(compression());
 app.use(morgan('combined'));
+app.use(express.static(path.join(__dirname, 'CSS')))
+
+
 
 
 
@@ -75,6 +81,10 @@ app.use(express.json()); // for parsing application/
 forgotPassword.belongsTo(User);
 User.hasMany(Downloads);
 Downloads.belongsTo(User);
+app.use((req ,res) =>{
+  res.sendFile(path.join(__dirname,`${req.url}`));
+
+})
 
 
 
