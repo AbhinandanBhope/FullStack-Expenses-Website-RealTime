@@ -77,7 +77,7 @@
     
   
       
-     axios.get(`http://54.172.233.244:3000/login/${Name1}/${password}/${gmail1}`)
+     axios.get(`http://54.145.27.228:3000/login/${Name1}/${password}/${gmail1}`)
   .then(response => {
   
   const obj = response.data;
@@ -95,17 +95,17 @@
   
   
   
-  // Handle successful response
+  
   })
   .catch(error => {
   
   if (error.response && error.response.status === 404) {
     alert(`one or more fields error please try again`);
-    // Perform any necessary actions for a failed login
+    
   } 
   else if (error.response && error.response.status === 400) {
     alert(` Incorrect password`);
-    // Perform any necessary actions for a failed login
+    
   } 
   else {
     alert('An error occurred while logging in');
@@ -114,7 +114,7 @@
   
   
   
-  // Handle error
+
   console.log(error);
   console.log("hellow");
   });
