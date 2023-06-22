@@ -39,6 +39,7 @@ const postUser = async function (req, res, next) {
   } catch (err) {
     console.log(err);
     await transaction.rollback();
+    console.log("h1");
 
     res.status(500).json({ error: 'An error occurred while creating a user' });
   }

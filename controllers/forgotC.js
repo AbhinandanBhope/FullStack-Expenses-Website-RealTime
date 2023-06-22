@@ -57,7 +57,7 @@ const ForgotPass = async function (req, res, next) {
         
         res.status(201).json({});
         
-    
+    console.log('h1');
         
         
 
