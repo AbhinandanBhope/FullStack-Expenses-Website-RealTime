@@ -6,9 +6,9 @@ const express = require('express');
 const Sequelize =require('sequelize');
 const  sequelize = require('../database');
 const User = require('../User');
-const Expense = require('../expense');
+
 const userauthenticate = require('../auth');
-const premiumFeatures = require('../controllers/PremiumFeatures');
+
 
 
 
@@ -23,18 +23,15 @@ const forgotController = require('../controllers/forgotC');
 
 router.post('/add', usersController.postUser);
 router.get('/login/:Name/:password/:gmail', usersController.LoginUser);
-router.post('/addExp', usersController.postExp);
-router.get('/getExp',userauthenticate.authenticate, usersController.Getexp);
-router.delete('/delete/:Id',usersController.deleteExp);
-router.get('/premiummembership' ,userauthenticate.authenticate, usersController.purchasepremium);
-router.post('/purchase/updatetransactionstatus',userauthenticate.authenticate, usersController.updatetransactionstatus );
-router.get('/getLeaderboard',userauthenticate.authenticate,premiumFeatures.getLeaderboard)
+
+
+
 router.get('/password/forgotpassword/:Gmail',userauthenticate.authenticate,forgotController.ForgotPass)
 router.get('/password/resetpassword/:id',forgotController.ResetPass);
 router.get('/password/updatepassword/:resetpasswordid', forgotController.updatepassword);
-router.get('/user/download',userauthenticate.authenticate, usersController.donloadExp);
-router.get('/Olddownload',userauthenticate.authenticate,premiumFeatures.SeeHistory);
-router.get('/Pagination/products',userauthenticate.authenticate,usersController.GetProducts);
+
+
+
 
 
     

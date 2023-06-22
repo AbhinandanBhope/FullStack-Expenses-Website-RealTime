@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
-    <link rel="stylesheet" href="../CSS/login.css">
+    <link rel="stylesheet" href="./CSS/login.css">
 </head>
 <body>
   
@@ -77,7 +77,7 @@
     
   
       
-     axios.get(`http://54.145.27.228:3000/login/${Name1}/${password}/${gmail1}`)
+     axios.get(`http://localhost:3000/login/${Name1}/${password}/${gmail1}`)
   .then(response => {
   
   const obj = response.data;

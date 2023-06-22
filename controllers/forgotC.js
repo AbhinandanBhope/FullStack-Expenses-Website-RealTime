@@ -1,13 +1,8 @@
 const User = require('../User');
 
-const Expense = require('../expense');
+
 const jwt = require('jsonwebtoken');
 const { where, Error } = require('sequelize');
-const  Razorpay =require('razorpay');
-const Orders = require('../orders');
-const Order = require('../orders');
-const usersController = require('../controllers/productC');
-const sequelize = require('../database');
 const sib = require('sib-api-v3-sdk');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
@@ -52,7 +47,7 @@ const ForgotPass = async function (req, res, next) {
         textContent:"Hi",
 
         htmlContent: ` <h1>HI</h1>
-        <a href="http://http://18.234.103.64:3000/password/resetpassword/${id}">Reset password</a>`
+        <a href="http://http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
 
 
     })
