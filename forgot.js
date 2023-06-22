@@ -3,7 +3,7 @@ document.getElementById('forgotGmail').onclick = ForgotPassword;
   const  token =localStorage.getItem('token')
   const Gmail = document.getElementById('Gmail').value;
   
-  axios.get(`http://http://18.234.103.64:3000/password/forgotpassword/${Gmail} ` ,{headers:{"Authorization":token}})
+  axios.get(`http://http://localhost:3000/password/forgotpassword/${Gmail} ` ,{headers:{"Authorization":token}})
   .then(res => {
   
   console.log(res.status);

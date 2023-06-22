@@ -10,21 +10,21 @@ const compression = require('compression');
 const app = express();
 
 //app.use(cors())
-app.set('view engine', 'ejs');
+
 const adminRoutes = require('./routes/admin');
 var cors = require('cors');
 const sequelize = require('./database');
 const User = require('./User');
-const Expense = require('./expense');
-const Order = require('./orders');
+
+
 const forgotPassword = require('./forgotPassword');
-const Downloads = require('./filesdownload');
+
 const routes =require('./routes/admin');
 app.use(routes);
 
 app.use(cors());
 
-app.use(compression());
+
 //app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'CSS')))
 app.use((req,res) =>{
@@ -51,7 +51,7 @@ then(result => {
 
 
 app.use(adminRoutes);
-app.use(express.json()); // for parsing application/
+app.use(express.json()); 
 
   
 
@@ -73,15 +73,14 @@ app.use(express.json()); // for parsing application/
   
   
   
-  User.hasMany(Expense);
   
-  Expense.belongsTo(User);
-  User.hasMany(Order);
-  Order.belongsTo(User);
+  
+
+  
+  
   User.hasMany(forgotPassword);
 forgotPassword.belongsTo(User);
-User.hasMany(Downloads);
-Downloads.belongsTo(User);
+
 app.use((req ,res) =>{
   res.sendFile(path.join(__dirname,`${req.url}`));
 
