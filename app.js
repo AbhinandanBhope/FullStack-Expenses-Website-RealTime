@@ -51,7 +51,7 @@ then(result => {
 
 
 app.use(adminRoutes);
-app.use(express.json()); // for parsing application/
+app.use(express.json()); 
 
   
 
