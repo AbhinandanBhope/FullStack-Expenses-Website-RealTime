@@ -21,10 +21,18 @@ const forgotPassword = require('./forgotPassword');
 
 const routes =require('./routes/admin');
 app.use(routes);
+app.use(compression());
+app.use(adminRoutes);
+
+
 
 app.use(cors());
 
+const Expense = require('./expense');
+const Order = require('./orders');
 
+const Downloads = require('./filesdownload');
+//const routes =require('./routes/admin');
 //app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'CSS')))
 app.use((req,res) =>{
@@ -80,6 +88,14 @@ app.use(express.json());
   
   User.hasMany(forgotPassword);
 forgotPassword.belongsTo(User);
+User.hasMany(Expense);
+
+Expense.belongsTo(User);
+User.hasMany(Order);
+Order.belongsTo(User);
+
+User.hasMany(Downloads);
+Downloads.belongsTo(User);
 
 app.use((req ,res) =>{
   res.sendFile(path.join(__dirname,`${req.url}`));
